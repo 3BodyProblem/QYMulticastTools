@@ -34,9 +34,12 @@ class UDPSender:
 
 		print( 'UDPSender.Initialize() : [INF] initializing ............' )
 		self.__oMCSocket = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP )
+		print( 'UDPSender.Initialize() : [INF] socket created!' )
 		self.__oMCSocket.bind( (self.__sLocalIP, self.__nLocalPort ) )
+		print( 'UDPSender.Initialize() : [INF] bind ip!' )
 		self.__oMCTTL_Bin = struct.pack( '@i', self.__nMCTTL )
 		self.__oMCSocket.setsockopt( IPPROTO_IP, IP_MULTICAST_TTL, self.__oMCTTL_Bin )
+		print( 'UDPSender.Initialize() : [INF] set socket option' )
 		nStatus = self.__oMCSocket.setsockopt( IPPROTO_IP, IP_ADD_MEMBERSHIP, inet_aton( self.__sMCGroupIP ) + inet_aton( self.__sLocalIP ) )
 		UDPSender.bInitialized = True
 		print( 'UDPSender.Initialize() : [OK] multicast sender has been initialized!' )
