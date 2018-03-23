@@ -6,13 +6,20 @@
 """
 
 
-import time  
-import socket  
+import os, sys, getopt, time, socket
 
   
 SENDERIP = '0.0.0.0'#'192.168.3.220' 
-MYPORT = 3400
-MYGROUP = '230.12.1.1'  
+MYPORT = 0#3400
+MYGROUP = ''#'230.12.1.1'  
+
+
+def usage():
+	print( "\nUsage:" )
+	print( "python3 QYMultirecv.py -h  [命令帮助]" )
+	print( "\n" )
+	print( """python3 QYMultirecv.py --mcip=230.12.1.1 --mcport=3400 [命令接收组播行情 --mcip=组播ip --mcport=组播端口]""" )
+print( "\n" )
 
   
 def receiver():  
@@ -41,7 +48,21 @@ def receiver():
 			print( data )
 
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
+	opts, args = getopt.getopt( sys.argv[1:], "h", ["mcip=", "mcport="] )
+	if len(opts) == 0:
+		usage()
+		sys.exit( 0 )
+
+	for op, value in opts:
+		if op in( "--mcip" ):
+			MYGROUP = value
+		elif op in( "--mcport" ):
+			MYPORT = int(value)
+		elif op == "-h":
+			usage()
+			sys.exit( 0 )
+
 	receiver()  
 
 
